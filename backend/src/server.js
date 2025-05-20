@@ -1,14 +1,18 @@
 import express from "express"
-import notesRoutes from "./routes/notesRoutes.js"
-import { connectDB } from "./config/db.js"
-import ratelimiter from "./middleware/rateLimiter.js"
 import dotenv from "dotenv"
+import cors from "cors"
+
+import notesRoutes from "./routes/notesRoutes.js"
+import ratelimiter from "./middleware/rateLimiter.js"
+import { connectDB } from "./config/db.js"
 
 dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT || 5001
 
+// default cors policy
+app.use(cors({origin: "http://localhost:5173"}))
 // middleware allows parsing of json bodies: req.body
 app.use(express.json())
 // middleware to ratelimit requests to server using upstash ratelimit & redis
